@@ -1,0 +1,13 @@
+<div class="employeeList">
+  <div class="row" *ngFor="let emp of employees">
+    <app-employee [employee]="emp" (editedEvent)="handleEvent($event)"></app-employee>
+  </div>
+</div>
+
+
+<!-- Original  -->
+<!-- <mat-grid-list class="employee-list" cols="1">
+  <mat-grid-tile  *ngFor="let emp of employees">
+    <app-employee [employee]="emp"></app-employee>
+  </mat-grid-tile>
+</mat-grid-list> -->

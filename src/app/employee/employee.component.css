@@ -1,0 +1,67 @@
+
+mat-card-content{
+    padding: 16px;
+}
+
+.employee{ 
+    margin-top: 15px;
+    height: auto;
+}
+
+.employeeHeader{
+    color:rgb(49, 109, 219);
+}
+.reportHeader{
+    font-size: 18px;
+    padding: 5px;
+    padding-left: 10px;
+    color: white;
+    background-color: rgb(111, 123, 138);
+}
+.reportContent{
+    /* height: 100%; */
+    background-color: rgb(245, 245, 245);
+}
+.report{
+    font-size: 16px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 48px;
+    align-items: stretch;
+}
+.report:nth-child(odd)
+{
+    background-color:rgb(236, 236, 236); ;
+}
+.reportEmployee{
+    flex: 1 1 auto;
+}
+
+.reportActions{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    flex: 0 1 auto;
+}
+
+.employeeName{
+    font-weight: 400;
+}
+
+.compensation{
+    padding-right: 8px;
+    align-items: stretch;
+    flex: 1 0;
+}
+
+.compensation>p{
+    text-align: end;
+}
+.currency{
+    letter-spacing: 0.5;
+    font-weight: 700;
+}
+.dull{
+    color: rgba(0, 0, 0, 0.637);
+}

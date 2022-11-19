@@ -1,0 +1,57 @@
+<mat-card class="employee flex">
+  <mat-card-header>
+    <mat-card-title class="employeeHeader">{{employee.firstName}} {{employee.lastName}}, {{employee.position}} </mat-card-title>
+    <mat-card-subtitle>Employee ID: {{employee.id}} Direct Reports: {{reports.length}} <ng-container *ngIf="employee.compensation">${{employee.compensation}}</ng-container></mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="reportHeader">
+      <p>Direct Reports:</p>
+    </div>
+    <div class="reportContent">
+      <!-- Check if total reports is greater than 0, loop through list of reports,
+         render out each employee based on template -->
+      <ng-container *ngIf="reports.length > 0; else noReports">
+        <ng-container *ngFor="let report of reports; index as i">
+          <!-- Check if the report is one of the Direct Reports, ignores Indirect Reports -->
+          <ng-container *ngIf="employee.directReports.includes(report.id)">
+            <div class="report">
+
+              <div class="reportEmployee">
+                <p>{{report.firstName}} {{report.lastName}}, {{report.position}}</p>
+              </div>
+              <!-- Check if Employee has a compensation value, render accordingly -->
+              <ng-container  *ngIf="report.compensation; else noCompensation">
+                <div class="compensation">
+                <p class="currency">${{report.compensation | number}}</p>
+                </div>
+              </ng-container>
+              
+              <ng-template #noCompensation>
+                <div class="compensation">
+                  <p >No Compensation</p>
+                </div>
+              </ng-template>
+  
+              <div class="reportActions">
+                <button mat-icon-button (click)="edit(report)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="delete(report)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <!-- Render this template if direct report count is 0 -->
+      <ng-template #noReports>
+        <div class="report">
+          <p class="dull">This employee has no reports.</p>
+        </div>
+      </ng-template>
+    </div>
+    
+  </mat-card-content>
+</mat-card>

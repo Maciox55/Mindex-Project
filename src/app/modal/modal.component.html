@@ -1,0 +1,44 @@
+<ng-container *ngIf="mode==='edit'; else delete">
+<h3>UPDATE COMPENSATION</h3>
+
+<form [formGroup]="employeeFormGroup">
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput readonly formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput readonly formControlName="lastName">
+      </mat-form-field>
+      <mat-form-field  appearance="outline">
+        <mat-label>Position</mat-label>
+        <input readonly matInput formControlName="position">
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Amount</mat-label>
+        <!-- Not a perfect solution, missing the number styling such as commas, could be added with custom pipe -->
+        <input matInput  formControlName="compensation" placeholder="0" [value]="employeeFormGroup.value.compensation" >
+        <mat-icon matPrefix>attach_money</mat-icon> 
+      </mat-form-field>
+      
+
+</form>
+<div class="buttons">
+    <button mat-flat-button color="primary" (click)="submit()">SAVE</button>
+    <button mat-flat-button color="primary" (click)="close()">CANCEL</button>
+</div>
+
+
+</ng-container>
+<ng-template #delete>
+    <h3>DELETE DIRECT REPORT</h3>
+    <p>Permanently delete direct report {{emp.firstName}} {{emp.lastName}}?</p>
+    <p class="danger">This action cannot be undone.</p>
+    <div class="buttons">
+        <button mat-raised-button color="warn" (click)="submit()">OK</button>
+        <button mat-raised-button  (click)="close()">CANCEL</button>
+    </div>
+    
+
+</ng-template>
+
