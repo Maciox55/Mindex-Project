@@ -2,6 +2,11 @@ import {async, TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
 
 import {EmployeeComponent} from './employee.component';
+import { EmployeeService } from '../employee.service';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({selector: 'app-mat-card', template: ''})
 class CardComponent {
@@ -28,6 +33,7 @@ const employeeServiceSpy = jasmine.createSpyObj('EmployeeService', ['getAll', 'g
 describe('EmployeeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports:[HttpClientModule,MatDialogModule,MatCardModule,MatDividerModule],
       declarations: [
         EmployeeComponent,
         CardComponent,
@@ -35,7 +41,9 @@ describe('EmployeeComponent', () => {
         CardTitleComponent,
         CardSubtitleComponent,
         CardContentComponent
-      ],
+      ],providers:[
+        EmployeeService
+      ]
     }).compileComponents();
   }));
 

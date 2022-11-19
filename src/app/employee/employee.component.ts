@@ -25,7 +25,9 @@ export class EmployeeComponent {
   ngOnInit(){
     this.reports = []; 
 
-    //On Component init, check if the Employee object contains any direct reports, if so, recursively traverse them.
+    /**
+     *   On Component init, check if the Employee object contains any direct reports, if so, recursively traverse them.
+     */ 
     if(this.employee.directReports)
       this.traverseReports(this.employee);
     
@@ -58,7 +60,6 @@ export class EmployeeComponent {
    * @param emp Employee object reference
    * 
    */
-
   delete(emp:Employee){
 
     const modalref = this.modal.open(ModalComponent, {width:'350px',data:{mode:"delete",employee:emp}});

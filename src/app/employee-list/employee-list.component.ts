@@ -36,7 +36,7 @@ export class EmployeeListComponent implements OnInit {
  * Therefore both edit and 'delete' functionalities can share the same Save function.
  * @param event - contains the Employee which was edited
  * 
- * Issue: Updated Employee objects do not rerender 
+ * Issue: Updated Employee objects do not rerender
  * 
  */
   handleEvent(event:Employee){

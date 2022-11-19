@@ -25,18 +25,16 @@ export class ModalComponent implements OnInit {
     this.mode = data.mode;
     this.emp = data.employee;
 
-
-      /*
-    Create a Reactive Form Group with Form Controls for each of the Employee Component.
-    Default value of each form control is the data supplied when form is filled  */
+     /**
+      *  Create a Reactive Form Group with Form Controls for each of the Employee Component.
+      *  Default value of each form control is the data supplied when form is filled
+      */
     this.employeeFormGroup = new FormGroup({
       firstName: new FormControl(this.emp.firstName),
       lastName: new FormControl(this.emp.lastName),
       position: new FormControl(this.emp.position),
-      compensation: new FormControl(this.emp.compensation,[Validators.required,Validators.min(0)])
+      compensation: new FormControl(this.emp.compensation,[Validators.required,Validators.pattern(/^[0-9]\d*$/),Validators.min(0)])
     });
-
-    
    }
 
   ngOnInit(): void {
