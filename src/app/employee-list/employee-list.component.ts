@@ -33,14 +33,14 @@ export class EmployeeListComponent implements OnInit {
 
 /**
  * When 'deleting' a Direct Report employee, the Employee object only gets updated with the new array of Direct Reports
- * Therefore both edit and 'delete' functionalities can share the same Save function.
+ * Therefore both 'edit' and 'delete' functionalities can share the same Save function.
  * @param event - contains the Employee which was edited
  * 
  * Issue: Updated Employee objects do not rerender
  * 
  */
   handleEvent(event:Employee,type:string){
-    console.log(event,type);
+    
     if(type === 'delete')
     {
       this.deleteEvent(event);
@@ -48,16 +48,14 @@ export class EmployeeListComponent implements OnInit {
     else if(type === 'edit')
     {
       this.employeeService.save(event).subscribe((data)=>{
-
+        const index = this.employees.findIndex((emp)=>{emp.id == data.id})
+        this.employees[index] = data;
       },(err)=>{
         this.snackbar.open('Error Saving Data, '+ err.message, 'Dismiss', {duration:3000});
       },()=>{
         this.snackbar.open('Edit Saved Sucessfully', 'Dismiss', {duration:3000});
       });
-    }
-
-
-    
+    }    
   }
 
  /**
