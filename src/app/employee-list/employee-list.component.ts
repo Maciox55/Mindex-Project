@@ -39,17 +39,42 @@ export class EmployeeListComponent implements OnInit {
  * Issue: Updated Employee objects do not rerender
  * 
  */
-  handleEvent(event:Employee){
+  handleEvent(event:Employee,type:string){
+    console.log(event,type);
+    if(type === 'delete')
+    {
+      this.deleteEvent(event);
+    }
+    else if(type === 'edit')
+    {
+      this.employeeService.save(event).subscribe((data)=>{
 
-    this.employeeService.save(event).subscribe((data)=>{
-      //find and update the employee object already stored.
-      // const index = this.employees.findIndex(e => e.id === data.id);
-      // this.employees[index] = data;
-      
+      },(err)=>{
+        this.snackbar.open('Error Saving Data, '+ err.message, 'Dismiss', {duration:3000});
+      },()=>{
+        this.snackbar.open('Edit Saved Sucessfully', 'Dismiss', {duration:3000});
+      });
+    }
+
+
+    
+  }
+
+ /**
+  * Implemented but not currently used, an example of Employee List Component being able to delete an Employee.
+  * Rather than the above Edit event handle. 
+  * This calls the Employee service remove method and subscribes to any sort of d
+  * @param event  contains the Employee which was edited
+  */
+  deleteEvent(emp:Employee)
+  {
+    this.employeeService.remove(emp).subscribe((data)=>{
+      const index = this.employees.findIndex(employee => employee.id === emp.id);
+      this.employees.splice(index,1); //Remove from the directReports property
     },(err)=>{
-      this.snackbar.open('Error Saving Data, '+ err.message, 'Dismiss', {duration:3000});
+      this.snackbar.open('Error Deleting Employee, '+ err.message, 'Dismiss', {duration:3000});
     },()=>{
-      this.snackbar.open('Edit Saved Sucessfully', 'Dismiss', {duration:3000});
+      this.snackbar.open('Employee Deleted', 'Dismiss', {duration:3000});
     });
   }
 

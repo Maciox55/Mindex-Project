@@ -24,7 +24,7 @@
 
 </form>
 <div class="buttons">
-    <button mat-flat-button color="primary" (click)="submit()">SAVE</button>
+    <button mat-flat-button color="primary" (click)="submit()" [disabled]="!employeeFormGroup.valid">SAVE</button>
     <button mat-flat-button color="primary" (click)="close()">CANCEL</button>
 </div>
 

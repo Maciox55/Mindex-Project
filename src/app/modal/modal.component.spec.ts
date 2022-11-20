@@ -36,9 +36,6 @@ describe('ModalComponent', () => {
     fixture = TestBed.createComponent(ModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    
-    
-    
 
   });
 
@@ -58,6 +55,13 @@ describe('ModalComponent', () => {
 
     component.employeeFormGroup.controls.compensation.setValue(123);
     expect(component.employeeFormGroup.valid).toBe(true);
+
+    component.employeeFormGroup.controls.compensation.setValue(0);
+    expect(component.employeeFormGroup.valid).toBe(true);
+
+    component.employeeFormGroup.controls.compensation.setValue(-1);
+    expect(component.employeeFormGroup.valid).toBe(false);
+
     component.employeeFormGroup.controls.compensation.setValue("123");
     expect(component.employeeFormGroup.valid).toBe(true);
 
@@ -67,6 +71,11 @@ describe('ModalComponent', () => {
     component.employeeFormGroup.controls.compensation.setValue("@$2");
     expect(component.employeeFormGroup.valid).toBe(false);
 
+    component.employeeFormGroup.controls.compensation.setValue("-10");
+    expect(component.employeeFormGroup.valid).toBe(false);
+
+    component.employeeFormGroup.controls.compensation.setValue("0");
+    expect(component.employeeFormGroup.valid).toBe(false);
     
   });
 

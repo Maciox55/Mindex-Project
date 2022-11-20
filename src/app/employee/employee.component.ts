@@ -14,7 +14,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class EmployeeComponent {
   @Input() employee: Employee; //Input data passed by parent component, available for use on/after ngOnInit 
 
-  @Output() editedEvent = new EventEmitter<Employee>();
+  @Output() editedEvent = new EventEmitter<{data:Employee,type:string}>();
 
   reports:Employee[]; //Store the Direct Report Employee elements for rendering of the DRE list components
 
@@ -45,7 +45,7 @@ export class EmployeeComponent {
 
     modalref.componentInstance.modalEvent.subscribe((data) =>{
       modalref.close();
-      this.editedEvent.emit(data);
+      this.editedEvent.emit({data:data,type:'edit'});
       
     });
   }
@@ -60,6 +60,23 @@ export class EmployeeComponent {
    * @param emp Employee object reference
    * 
    */
+  // delete(emp:Employee){
+
+  //   const modalref = this.modal.open(ModalComponent, {width:'350px',data:{mode:"delete",employee:emp}});
+
+  //   modalref.componentInstance.modalEvent.subscribe((data) =>{
+     
+  //     modalref.close();
+
+  //     const index = this.employee.directReports.findIndex(directReport => directReport === emp.id);
+  //     this.employee.directReports.splice(index,1); //Remove from the directReports property
+  //     this.reports.splice(index,1); //Remove from the populated list of 
+
+  //     this.editedEvent.emit(this.employee);
+
+  //   });
+  // }
+
   delete(emp:Employee){
 
     const modalref = this.modal.open(ModalComponent, {width:'350px',data:{mode:"delete",employee:emp}});
@@ -72,7 +89,7 @@ export class EmployeeComponent {
       this.employee.directReports.splice(index,1); //Remove from the directReports property
       this.reports.splice(index,1); //Remove from the populated list of 
 
-      this.editedEvent.emit(this.employee);
+      this.editedEvent.emit({data:this.employee,type:'edit'});
 
     });
   }
@@ -101,5 +118,8 @@ export class EmployeeComponent {
        });
       }
   }
+
+ 
+
 
 }

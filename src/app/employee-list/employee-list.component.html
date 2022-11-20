@@ -1,6 +1,6 @@
 <div class="employeeList">
   <div class="row" *ngFor="let emp of employees">
-    <app-employee [employee]="emp" (editedEvent)="handleEvent($event)"></app-employee>
+    <app-employee [employee]="emp" (editedEvent)="handleEvent($event.data,$event.type)"></app-employee>
   </div>
 </div>
 
