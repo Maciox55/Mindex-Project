@@ -70,8 +70,6 @@ export class EmployeeComponent {
       this.employee.directReports.splice(index,1); //Remove from the directReports property
       this.reports.splice(index,1); //Remove from the populated list of 
       this.editedEvent.emit({data:this.employee,type:'edit'});
-
-
     });
   }
   
@@ -95,7 +93,6 @@ export class EmployeeComponent {
   traverseReports(emp: Employee){
     if(emp.directReports){
       emp.directReports.forEach(report => { 
-        //Subscription here is slowing things down, perhaps there exists a more efficient RXJS method of mapping these values that I am not aware of...
           this.employeeService.get(report).subscribe((emp)=>{
             this.reports.push(emp); //Add direct reports to another array
             this.traverseReports(emp); //Recursively check if this direct report has any direct reports of their own
