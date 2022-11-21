@@ -102,8 +102,8 @@ export class EmployeeComponent {
       emp.directReports.forEach(report => { 
         
           this.employeeService.get(report).subscribe((child)=>{
-              this.reports.push(child); //Add direct reports to another array
-              this.traverseReports(child); //Recursively check if this direct report has any direct reports of their own
+              this.reports.push(child); //Add report to list
+              this.traverseReports(child); //Recursively check if this report has any direct reports of their own
               console.log(child.firstName);
           },(err)=>{
             console.log(err);
