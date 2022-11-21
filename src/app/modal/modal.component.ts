@@ -16,11 +16,10 @@ export class ModalComponent implements OnInit {
   public formGroup:FormGroup;
 
   @Output() modalEvent = new EventEmitter();
-  private diaRef;
 
-  public test:any;
   employeeFormGroup: FormGroup;
 
+  // Making sure modal has a specific mode and data reference for the FormGroup
   constructor(@Inject(MAT_DIALOG_DATA) public data: {mode: string, employee:Employee},private dialogRef: MatDialogRef<ModalComponent>) {
     this.mode = data.mode;
     this.emp = data.employee;

@@ -1,6 +1,5 @@
-import {Component, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import {Employee} from '../employee';
 import { EmployeeService } from '../employee.service';
@@ -12,23 +11,25 @@ import { ModalComponent } from '../modal/modal.component';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent {
-  @Input() employee: Employee; //Input data passed by parent component, available for use on/after ngOnInit 
-
+   //Input data passed by parent component, available for use on/after ngOnInit 
+  @Input() employee: Employee;
   @Output() editedEvent = new EventEmitter<{data:Employee,type:string}>();
 
-  reports:Employee[]; //Store the Direct Report Employee elements for rendering of the DRE list components
+  //Store the Direct Report Employee elements for rendering of the DRE list components
+  reports:Employee[]; 
 
+  
   //Dependency Injection of the Employee Service for calling of the save function when form is submitted with changed values.
   constructor(private employeeService: EmployeeService, private modal: MatDialog) {
   }
-
+  
+  /**
+  *   On Component init, check if the Employee object contains any direct reports, if so, recursively traverse them.
+  */ 
   ngOnInit(){
-    /**
-     *   On Component init, check if the Employee object contains any direct reports, if so, recursively traverse them.
-     */ 
     this.reports = []; 
+    //Build out the report list, only triggered on Component init
     this.traverseReports(this.employee);
-    
   }
 
 /**
@@ -45,6 +46,8 @@ export class EmployeeComponent {
       modalref.close();
       this.editedEvent.emit({data:data,type:'edit'});
       
+    },(err)=>{
+      console.log(err)
     });
   }
 
@@ -53,6 +56,8 @@ export class EmployeeComponent {
    * Processing of updating the employee object reference after the Delete modal was submitted.
    * Removes the selected Direct Report form this Employee object.
    * Emits an event to the Parent Employee List Component for service call with the updated employee service for storage in DB
+   * If event contains a delete tag, it will permanently delete that specific Employee
+   * Otherwise, it merely 'edits' the employees direct report list.
    * Closes the modal after it is finished.
    * 
    * @param emp Employee object reference
@@ -64,12 +69,14 @@ export class EmployeeComponent {
     const modalref = this.modal.open(ModalComponent, {width:'350px',data:{mode:"delete",employee:emp}});
 
     modalref.componentInstance.modalEvent.subscribe((data) =>{
+      
       modalref.close();
-
       const index = this.employee.directReports.findIndex(directReport => directReport === data.id);
       this.employee.directReports.splice(index,1); //Remove from the directReports property
       this.reports.splice(index,1); //Remove from the populated list of 
       this.editedEvent.emit({data:this.employee,type:'edit'});
+    },(err)=>{
+      console.log(err);
     });
   }
   
@@ -93,12 +100,18 @@ export class EmployeeComponent {
   traverseReports(emp: Employee){
     if(emp.directReports){
       emp.directReports.forEach(report => { 
-          this.employeeService.get(report).subscribe((emp)=>{
-            this.reports.push(emp); //Add direct reports to another array
-            this.traverseReports(emp); //Recursively check if this direct report has any direct reports of their own
-          });
-       });
-      }
+        
+          this.employeeService.get(report).subscribe((child)=>{
+              this.reports.push(child); //Add direct reports to another array
+              this.traverseReports(child); //Recursively check if this direct report has any direct reports of their own
+              console.log(child.firstName);
+          },(err)=>{
+            console.log(err);
+          },);
+          
+          
+      });
+    }
   }
 
 }

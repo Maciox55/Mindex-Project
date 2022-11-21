@@ -6,7 +6,5 @@ body, html{
     height: 100vh;
     overflow-x: hidden;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-
-
     background-image: linear-gradient(to left top, #051937, #004d7a);
 }

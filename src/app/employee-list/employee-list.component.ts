@@ -34,6 +34,7 @@ export class EmployeeListComponent implements OnInit {
 /**
  * When 'deleting' a Direct Report employee, the Employee object only gets updated with the new array of Direct Reports
  * Therefore both 'edit' and 'delete' functionalities can share the same Save function.
+ * In an event where the type is set to 'delete', the passed Employee object will be permanently deleted.
  * @param event - contains the Employee which was edited
  * 
  * Issue: Updated Employee objects do not rerender
@@ -51,16 +52,16 @@ export class EmployeeListComponent implements OnInit {
         const index = this.employees.findIndex((emp)=>{emp.id == data.id})
         this.employees[index] = data;
       },(err)=>{
-        this.snackbar.open('Error Saving Data, '+ err.message, 'Dismiss', {duration:3000});
+        this.snackbar.open('Error Saving Employee, '+ err.message, 'Dismiss', {duration:3000});
       },()=>{
-        this.snackbar.open('Edit Saved Sucessfully', 'Dismiss', {duration:3000});
+        this.snackbar.open('Employee Saved Sucessfully', 'Dismiss', {duration:3000});
       });
     }    
   }
 
  /**
   * Implemented but not currently used, an example of Employee List Component being able to delete an Employee.
-  * Rather than the above Edit event handle. 
+  * Permanently deletes the Employee from the database, rather than 'fake' deleting form the report list. 
   * This calls the Employee service remove method and subscribes to any sort of d
   * @param event  contains the Employee which was edited
   */
@@ -68,8 +69,8 @@ export class EmployeeListComponent implements OnInit {
   {
     this.employeeService.remove(emp).subscribe((data)=>{
       const index = this.employees.findIndex(employee => employee.id === emp.id);
-      this.employees.splice(index,1); //Remove from the directReports property
-    },(err)=>{
+      this.employees.splice(index,1); //Remove from e,ployee list
+        },(err)=>{
       this.snackbar.open('Error Deleting Employee, '+ err.message, 'Dismiss', {duration:3000});
     },()=>{
       this.snackbar.open('Employee Deleted', 'Dismiss', {duration:3000});
